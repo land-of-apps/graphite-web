@@ -20,3 +20,5 @@ webapp/.coverage
 webapp/htmlcov
 webapp/static
 webapp/static/**/*
+venv/
+redis/

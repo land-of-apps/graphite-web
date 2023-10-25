@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: graphite
+      POSTGRES_PASSWORD: graphite
+      POSTGRES_DB: test_graphite
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data:cached
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+      MYSQL_USER: graphite
+      MYSQL_PASSWORD: graphite
+      MYSQL_DATABASE: test_graphite
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+        - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mariadb/data:cached
+
+  redis:
+    restart: always
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+    volumes:
+      - ./redis:/data
+
+volumes:
+  postgres:
+  mariadb:
